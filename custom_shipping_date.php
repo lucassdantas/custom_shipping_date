@@ -1,9 +1,9 @@
 <?php
 /**
-* Plugin Name: Calculadora Bruno
+* Plugin Name: Custom Shipping Date
 * Plugin URI: https://github.com/lucassdantas/calculadora-bruno-investimentos
-* Description: Calculadora para o site do Buno Investimentos
-* Version: 0.7
+* Description: Custom dates for woocommerce shipping
+* Version: 0.1
 * Author: R&D Marketing Digital
 * Author URI: https://rdmarketing.com.br/
 **/
