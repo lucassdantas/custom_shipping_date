@@ -15,27 +15,39 @@ if(!function_exists('add_action')){
 add_filter('woocommerce_checkout_fields', 'custom_date_field');
 function custom_date_field($fields)
 {
-	 $fields['billing']['shipping_date'] = array(
-        'label'     => __('Data da entrega', 'woocommerce'),
+	 $fields['billing']['shipping_type'] = array(
+        'label'     => __('Tipo de entrega', 'woocommerce'),
 		'type'		=> 'select',
-		'placeholder'   => _x('Data da entrega', 'placeholder', 'woocommerce'),
-		'required'  => false,
+		'placeholder'   => _x('Selecione o tipo de entrega', 'placeholder', 'woocommerce'),
+		'required'  => true,
 		'class'     => array('form-row-wide'),
 		'clear'     => true
      );
 	
-	$fields['billing']['shipping_date']['options'] = array (
+	$fields['billing']['shipping_type']['options'] = array (
 		'entrega_imediata' => 'Entrega imediata',
 		'proximo_dia_util' => 'Próximo dia útil',
 		'Entrega agendada' => 'Agendar entrega'
 	);
+	
+	$fields['billing']['shipping_type']['priority'] = 9;
+	
+	
+	$fields['billing']['shipping_date'] = array(
+        'type' => 'date',
+        'label'     => __('Data de entrega', 'woocommerce'),
+        'placeholder'   => _x('Data de entrega', 'placeholder', 'woocommerce'),
+        'required'  => false,
+        'class'     => array('form-row-wide'),
+        'clear'     => true
+    );
 	return $fields;
 }
 
-add_action( 'woocommerce_admin_order_data_after_shipping_address', 'display_shipping_date_on_order', 10, 1 );
+add_action( 'woocommerce_admin_order_data_after_shipping_address', 'display_shipping_type_on_order', 10, 1 );
 
-function display_shipping_date_on_order(){
-	    echo '<p><strong>'.__('Entrega:').':</strong> ' . get_post_meta( $order->get_id(), '_shipping_date', true ) . '</p>';
+function display_shipping_type_on_order(){
+	    echo '<p><strong>'.__('Entrega:').':</strong> ' . get_post_meta( $order->get_id(), '_shipping_type', true ) . '</p>';
 
 }
 
