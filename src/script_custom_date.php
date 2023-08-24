@@ -33,19 +33,21 @@ function script_custom_date()
             .then( shippingType => {
                 waitForElementToExist('#shipping_date_field')
                     .then(shippingDateField => {
-                        shippingDateField.style.display = 'none'
+                        let showShippingDateByShippingType = (shippingType, shippingDate) => {
+                            if(shippingType.selectedIndex !== 2){
+                                shippingDate.style.display = 'none'
+                            }else{
+                                shippingDate.style.display = ''
+                            }
+                        }
+                        showShippingDateByShippingType(shippingType, shippingDateField)
                         shippingDateField.querySelector('.optional').innerHTML = ''
                         let shippingDateInput = shippingDateField.querySelector('input')
                         
                         shippingType.addEventListener('change', e => {
-                            if(shippingType.selectedIndex !== 2){
-                                shippingDateField.style.display = 'none'
-                            }else{
-                                shippingDateField.style.display = ''
-                            }
+                            showShippingDateByShippingType(shippingType, shippingDateField)
                         })
                         shippingDateInput.addEventListener('change', e => {
-                            console.log(shippingDateInput)
                             date = new Date(shippingDateInput.valueAsNumber)
                             if(date.getUTCDay() == 0){
                                 shippingDateInput.value = ''

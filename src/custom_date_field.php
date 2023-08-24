@@ -1,4 +1,14 @@
 <?php
+
+add_action('woocommerce_before_checkout_billing_form', 'check_shipping_method');
+function check_shipping_method() {
+	$current_shipping_method = WC()->session->get( 'chosen_shipping_methods' );
+	echo "<pre>";
+	print_r($current_shipping_method);
+	echo "</pre>";
+}
+
+
 add_filter('woocommerce_checkout_fields', 'custom_date_field');
 function custom_date_field($fields)
 {
@@ -12,8 +22,8 @@ function custom_date_field($fields)
      );
 	
 	$fields['billing']['shipping_type']['options'] = array (
-		'entrega_imediata' => 'Entrega imediata',
-		'proximo_dia_util' => 'Próximo dia útil',
+		'Entrega imediata' => 'Entrega imediata',
+		'Próximo dia útil' => 'Próximo dia útil',
 		'Entrega agendada' => 'Agendar entrega'
 	);
 	
@@ -35,6 +45,7 @@ function custom_date_field($fields)
 
 add_action( 'woocommerce_admin_order_data_after_shipping_address', 'display_shipping_type_on_order', 10, 1 );
 
-function display_shipping_type_on_order(){
-    echo '<p><strong>'.__('Entrega:').':</strong> ' . get_post_meta( $order->get_id(), '_shipping_type', true ) . '</p>';
+function display_shipping_type_on_order($order){
+    echo '<p><strong>'.__('Tipo de entrega:').'</strong> ' . get_post_meta( $order->get_id(), '_shipping_type', true ) . '</p>';
+    echo '<p><strong>'.__('Data:').'</strong> ' . get_post_meta( $order->get_id(), '_shipping_date', true ) . '</p>';
 }
