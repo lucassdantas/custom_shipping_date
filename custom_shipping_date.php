@@ -30,7 +30,7 @@ function custom_date_field($fields)
 		'Entrega agendada' => 'Agendar entrega'
 	);
 	
-	$fields['billing']['shipping_type']['priority'] = 9;
+	$fields['billing']['shipping_type']['priority'] = 8;
 	
 	
 	$fields['billing']['shipping_date'] = array(
@@ -41,6 +41,8 @@ function custom_date_field($fields)
         'class'     => array('form-row-wide'),
         'clear'     => true
     );
+
+    $fields['billing']['shipping_date']['priority'] = 9;
 	return $fields;
 }
 
