@@ -80,32 +80,26 @@ function script_custom_date()
             },
                 ds = value => document.querySelector(value),
                 c  = value => console.log(value),
-                deliveryTypeSelect,
                 delivertTyleSelectTitle,
-                deliveryDateField,
                 date;
 
-            waitForElementToExist('#select2-billing_delivery_type-container').then( el => {
-                
-                deliveryTypeSelect =  ds("#select2-billing_delivery_type-container")
-                waitForElementToExist('#coderockz_woo_delivery_date_datepicker')
-                .then( el => {
-                    deliveryDateField = ds("#coderockz_woo_delivery_date_datepicker")
-                    
-                    deliveryTypeSelect.addEventListener('change', e => {
-                            
-                        if(deliveryTypeSelect.selectedIndex === 0){
-                            deliveryDateField.style.display = 'none'
-                        }else{
-                            deliveryDateField.style.display = ''
-                            if(deliveryTypeSelect.selectedIndex === 1){
-                                date = new Date(deliveryDateField.value)
-                            }
-                        }
+            waitForElementToExist('#shipping_type')
+                .then( shippingType => {
+                    waitForElementToExist('#shipping_date_field')
+                        .then(shippingDateField => {
+                            shippingDateField.style.display = 'none'
+                            shippingType.addEventListener('change', e => {
+                                if(shippingType.selectedIndex === 0 || shippingType.selectedIndex === 1 ){
+                                    shippingType.style.display = 'none'
+                                }else{
+                                    shippingDateField.style.display = ''
+                                    if(shippingType.selectedIndex === 2){
+                                        date = new Date(shippingDateField.value)
+                                    }
+                                }
+                            })
+                        })
                     })
-
-                })
-            })
         }
     </script>
     <?php
