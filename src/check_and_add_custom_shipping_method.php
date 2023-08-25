@@ -1,6 +1,6 @@
 <?php
-add_action('woocommerce_before_checkout_billing_form', 'check_shipping_method');
-function check_shipping_method() {
+add_action('woocommerce_before_checkout_billing_form', 'check_and_add_custom_shipping_method');
+function check_and_add_custom_shipping_method() {
 	$current_shipping_name = "";
 	$current_shipping_method = WC()->session->get( 'chosen_shipping_methods' );
 	$packages = WC()->shipping()->get_packages();
