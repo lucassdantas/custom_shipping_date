@@ -59,7 +59,6 @@ function script_custom_date()
     }
 </script>
 <script>
-
     if(location.pathname === '/finalizar-compra/'){
         let waitForElementToExist = (selector) => {
             return new Promise(resolve => {
@@ -79,8 +78,8 @@ function script_custom_date()
                     childList: true,
                 });
             });
-        }
-        let statusCheckerAndReload = {
+        },
+        statusCheckerAndReload = {
             element: document.querySelector("#shipping_method_0_free_shipping6"),
             wasChecked: false,
             isReloading: false,
@@ -97,24 +96,25 @@ function script_custom_date()
             tryReloadPage() {
                 statusCheckerAndReload.checker = setInterval( () => {
                     if(statusCheckerAndReload.wasChecked){
-                        statusCheckerAndReload.element = document.querySelector('#shipping_method_0_free_shipping6')
-                        if(!statusCheckerAndReload.element.checked){
-                            statusCheckerAndReload.isReloading = true  
-                            location.reload()
-                            clearInterval(statusCheckerAndReload.checker)
-                            return true
-                        }
-                        return false
+                        waitForElementToExist('#shipping_method_0_free_shipping6').then(el => {
+                            if(!el.checked){
+                                statusCheckerAndReload.isReloading = true  
+                                location.reload()
+                                clearInterval(statusCheckerAndReload.checker)
+                            }
+                        })
+                        
                     } else{
-                        statusCheckerAndReload.element = document.querySelector('#shipping_method_0_free_shipping6')
-                        if(statusCheckerAndReload.element.checked){
-                            statusCheckerAndReload.isReloading = true  
-                            location.reload()
-                            clearInterval(statusCheckerAndReload.checker)
-                            return true
-                        }
+                        waitForElementToExist('#shipping_method_0_free_shipping').then(el => {
+                            if(el.checked){
+                                statusCheckerAndReload.isReloading = true  
+                                location.reload()
+                                clearInterval(statusCheckerAndReload.checker)
+                                return true
+                            }
+                        })
                     }
-                }, 1000)
+                }, 1200)
             },
             init(){
                 statusCheckerAndReload.isCheckedInterval()
