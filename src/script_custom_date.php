@@ -62,20 +62,23 @@ function script_custom_date()
     if(location.pathname === '/finalizar-compra/'){
         let setCheckListener = (element) => {
             if(element.checked === true){
-                console.log('checked = true')
-                let tryReloadPage = id => {
+                let isReloading = false,
+                tryReloadPage = id => {
                     let element = document.querySelector("#"+id)
-                    if(!element.checked){ 
+                    if(!element.checked){
+                        isReloading = true  
                         location.reload()
                         return true
                     }
                     return false
                 },
-                clearReloadInterval = (interval) => {
-                    if(tryReloadPage('shipping_method_0_free_shipping6')) clearInterval(interval)
-                },
-                reloadPageInterval = setInterval(tryReloadPage, 1200, 'shipping_method_0_free_shipping6' );
-                setInterval(clearReloadInterval, 500, reloadPageInterval)
+                reloadPageInterval = setInterval(tryReloadPage, 1200, 'shipping_method_0_free_shipping6' ),
+                clearReloadInterval = (reloadingStatus) => {
+                    if(isReloading) {
+                        clearInterval(reloadPageInterval)
+                    }
+                };
+                setInterval(clearReloadInterval, 600)
             }
         },
         motoboyShipping = document.querySelector("#shipping_method_0_free_shipping6")
