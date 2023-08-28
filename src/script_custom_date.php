@@ -122,28 +122,6 @@ function script_custom_date()
             }
         }
         statusCheckerAndReload.init()
-        /*
-        let setCheckListeners = (element) => {
-            if(element.checked === true){
-                let isReloading = false,
-                tryReloadPage = id => {
-                    let element = document.querySelector("#"+id)
-                    if(!element.checked){
-                        isReloading = true  
-                        location.reload()
-                        return true
-                    }
-                    return false
-                },
-                reloadPageInterval = setInterval(tryReloadPage, 1000, 'shipping_method_0_free_shipping6' ),
-                clearReloadInterval = () => {
-                    if(isReloading) clearInterval(reloadPageInterval)
-                };
-                setInterval(clearReloadInterval, 500)
-            }
-        },
-        motoboyShipping = document.querySelector("#shipping_method_0_free_shipping6")
-        setCheckListeners(motoboyShipping)*/
     }
 </script>
 <?php
