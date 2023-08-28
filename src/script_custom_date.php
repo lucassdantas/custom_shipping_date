@@ -84,7 +84,8 @@ function script_custom_date()
             element: document.querySelector("#shipping_method_0_free_shipping6"),
             wasChecked: false,
             isReloading: false,
-            isCheckedInterval:() => {
+            checker: undefined,
+            isCheckedInterval(){
                 waitForElementToExist("#shipping_method_0_free_shipping6").then(el => {
                     if(el.checked === true) {
                         statusCheckerAndReload.wasChecked = true
@@ -94,13 +95,13 @@ function script_custom_date()
                 })
             },
             tryReloadPage() {
-                setInterval( () => {
+                statusCheckerAndReload.checker = setInterval( () => {
                     if(statusCheckerAndReload.wasChecked){
                         statusCheckerAndReload.element = document.querySelector('#shipping_method_0_free_shipping6')
                         if(!statusCheckerAndReload.element.checked){
                             statusCheckerAndReload.isReloading = true  
                             location.reload()
-                            clearInterval(statusCheckerAndReload.tryReloadPage)
+                            clearInterval(statusCheckerAndReload.checker)
                             return true
                         }
                         return false
@@ -109,7 +110,7 @@ function script_custom_date()
                         if(statusCheckerAndReload.element.checked){
                             statusCheckerAndReload.isReloading = true  
                             location.reload()
-                            clearInterval(statusCheckerAndReload.tryReloadPage)
+                            clearInterval(statusCheckerAndReload.checker)
                             return true
                         }
                     }
