@@ -59,8 +59,70 @@ function script_custom_date()
     }
 </script>
 <script>
+
     if(location.pathname === '/finalizar-compra/'){
-        let setCheckListener = (element) => {
+        let waitForElementToExist = (selector) => {
+            return new Promise(resolve => {
+                if (document.querySelector(selector)) {
+                    return resolve(document.querySelector(selector));
+                }
+
+                const observer = new MutationObserver(() => {
+                    if (document.querySelector(selector)) {
+                        resolve(document.querySelector(selector));
+                        observer.disconnect();
+                    }
+                });
+
+                observer.observe(document.body, {
+                    subtree: true,
+                    childList: true,
+                });
+            });
+        }
+        let statusCheckerAndReload = {
+            element: document.querySelector("#shipping_method_0_free_shipping6"),
+            wasChecked: false,
+            isReloading: false,
+            isCheckedInterval:() => {
+                waitForElementToExist("#shipping_method_0_free_shipping6").then(el => {
+                    if(el.checked === true) {
+                        statusCheckerAndReload.wasChecked = true
+                        return true 
+                    }
+                    return false
+                })
+            },
+            tryReloadPage() {
+                setInterval( () => {
+                    if(statusCheckerAndReload.wasChecked){
+                        statusCheckerAndReload.element = document.querySelector('#shipping_method_0_free_shipping6')
+                        if(!statusCheckerAndReload.element.checked){
+                            statusCheckerAndReload.isReloading = true  
+                            location.reload()
+                            clearInterval(statusCheckerAndReload.tryReloadPage)
+                            return true
+                        }
+                        return false
+                    } else{
+                        statusCheckerAndReload.element = document.querySelector('#shipping_method_0_free_shipping6')
+                        if(statusCheckerAndReload.element.checked){
+                            statusCheckerAndReload.isReloading = true  
+                            location.reload()
+                            clearInterval(statusCheckerAndReload.tryReloadPage)
+                            return true
+                        }
+                    }
+                }, 1000)
+            },
+            init(){
+                statusCheckerAndReload.isCheckedInterval()
+                statusCheckerAndReload.tryReloadPage()
+            }
+        }
+        statusCheckerAndReload.init()
+        /*
+        let setCheckListeners = (element) => {
             if(element.checked === true){
                 let isReloading = false,
                 tryReloadPage = id => {
@@ -72,23 +134,15 @@ function script_custom_date()
                     }
                     return false
                 },
-                reloadPageInterval = setInterval(tryReloadPage, 1200, 'shipping_method_0_free_shipping6' ),
-                clearReloadInterval = (reloadingStatus) => {
-                    if(isReloading) {
-                        clearInterval(reloadPageInterval)
-                    }
+                reloadPageInterval = setInterval(tryReloadPage, 1000, 'shipping_method_0_free_shipping6' ),
+                clearReloadInterval = () => {
+                    if(isReloading) clearInterval(reloadPageInterval)
                 };
-                setInterval(clearReloadInterval, 600)
+                setInterval(clearReloadInterval, 500)
             }
         },
         motoboyShipping = document.querySelector("#shipping_method_0_free_shipping6")
-        
-        motoboyShipping.addEventListener('click', (e) => {
-            e.preventDefault()
-            location.reload();
-        })
-
-        setCheckListener(motoboyShipping)
+        setCheckListeners(motoboyShipping)*/
     }
 </script>
 <?php
