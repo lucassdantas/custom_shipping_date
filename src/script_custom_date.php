@@ -80,12 +80,14 @@ function script_custom_date()
             });
         },
         statusCheckerAndReload = {
-            element: document.querySelector("#shipping_method_0_free_shipping6"),
+            motoboyInputId:'shipping_method_0_free_shipping6',
+            element: document.querySelector(`#${statusCheckerAndReload.motoboyInputId}`),
             wasChecked: false,
             isReloading: false,
             checker: undefined,
+            radioBtns: document.querySelectorAll('.woocommerce-shipping-totals input'),
             isCheckedInterval(){
-                waitForElementToExist("#shipping_method_0_free_shipping6").then(el => {
+                waitForElementToExist(`#${statusCheckerAndReload.motoboyInputId}`).then(el => {
                     if(el.checked === true) {
                         statusCheckerAndReload.wasChecked = true
                         return true 
@@ -96,25 +98,39 @@ function script_custom_date()
             tryReloadPage() {
                 statusCheckerAndReload.checker = setInterval( () => {
                     if(statusCheckerAndReload.wasChecked){
-                        waitForElementToExist('#shipping_method_0_free_shipping6').then(el => {
+                        waitForElementToExist(`#${statusCheckerAndReload.motoboyInputId}`).then(el => {
+                            console.log("estava ativo")
                             if(!el.checked){
-                                statusCheckerAndReload.isReloading = true  
-                                location.reload()
-                                clearInterval(statusCheckerAndReload.checker)
+                                waitForElementToExist('#shipping_method_0_correios-sedex14').then(el => {
+                                    statusCheckerAndReload.isReloading = true  
+                                    location.reload()
+                                    clearInterval(statusCheckerAndReload.checker)
+                                })
                             }
                         })
-                        
                     } else{
-                        waitForElementToExist('#shipping_method_0_free_shipping').then(el => {
+                        waitForElementToExist(`#${statusCheckerAndReload.motoboyInputId}`).then(el => {
+                            console.log("estava inativo")
                             if(el.checked){
-                                statusCheckerAndReload.isReloading = true  
-                                location.reload()
-                                clearInterval(statusCheckerAndReload.checker)
-                                return true
+                                waitForElementToExist('#shipping_method_0_correios-sedex14').then(el => {
+                                    statusCheckerAndReload.isReloading = true  
+                                    location.reload()
+                                    clearInterval(statusCheckerAndReload.checker)
+                                })
                             }
                         })
                     }
                 }, 1200)
+            },
+            reloadOnClick(){
+                statusCheckerAndReload.radioBtns = document.querySelectorAll('.woocommerce-shipping-totals input')
+                statusCheckerAndReload.radioBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        waitForElementToExist(`#${statusCheckerAndReload.motoboyInputId}`).then((el) => {
+                            location.reload()
+                        })
+                    })
+                })
             },
             init(){
                 statusCheckerAndReload.isCheckedInterval()
