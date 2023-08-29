@@ -58,6 +58,7 @@ function script_custom_date()
         })
     }
 </script>
+
 <script>
     if(location.pathname === '/finalizar-compra/'){
         let waitForElementToExist = (selector) => {
@@ -81,7 +82,8 @@ function script_custom_date()
         },
         statusCheckerAndReload = {
             motoboyInputId:'shipping_method_0_free_shipping6',
-            element: document.querySelector(`#${statusCheckerAndReload.motoboyInputId}`),
+            loadingBlockClass:'blockUI',
+            element: document.querySelector(`#${this.motoboyInputId}`),
             wasChecked: false,
             isReloading: false,
             checker: undefined,
@@ -99,28 +101,32 @@ function script_custom_date()
                 statusCheckerAndReload.checker = setInterval( () => {
                     if(statusCheckerAndReload.wasChecked){
                         waitForElementToExist(`#${statusCheckerAndReload.motoboyInputId}`).then(el => {
-                            console.log("estava ativo")
+                            console.log(el)
                             if(!el.checked){
-                                waitForElementToExist('#shipping_method_0_correios-sedex14').then(el => {
+                                let test = document.querySelector(`.${statusCheckerAndReload.loadingBlockClass}`)
+                                console.log(test)
+                                if(!document.querySelector(`.${statusCheckerAndReload.loadingBlockClass}`)){
                                     statusCheckerAndReload.isReloading = true  
                                     location.reload()
                                     clearInterval(statusCheckerAndReload.checker)
-                                })
+                                }
                             }
                         })
                     } else{
                         waitForElementToExist(`#${statusCheckerAndReload.motoboyInputId}`).then(el => {
-                            console.log("estava inativo")
+                            console.log(el)
                             if(el.checked){
-                                waitForElementToExist('#shipping_method_0_correios-sedex14').then(el => {
+                                let test = document.querySelector(`.${statusCheckerAndReload.loadingBlockClass}`)
+                                console.log(test)
+                                if(!document.querySelector(`.${statusCheckerAndReload.loadingBlockClass}`)){
                                     statusCheckerAndReload.isReloading = true  
                                     location.reload()
                                     clearInterval(statusCheckerAndReload.checker)
-                                })
+                                }
                             }
                         })
                     }
-                }, 1200)
+                }, 600)
             },
             reloadOnClick(){
                 statusCheckerAndReload.radioBtns = document.querySelectorAll('.woocommerce-shipping-totals input')
@@ -140,7 +146,10 @@ function script_custom_date()
         statusCheckerAndReload.init()
     }
 </script>
+
 <?php
 }
 
 add_action('wp_footer', 'script_custom_date');
+
+//blockUI blockOverlay
