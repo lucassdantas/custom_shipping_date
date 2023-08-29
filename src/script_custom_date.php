@@ -101,10 +101,8 @@ function script_custom_date()
                 statusCheckerAndReload.checker = setInterval( () => {
                     if(statusCheckerAndReload.wasChecked){
                         waitForElementToExist(`#${statusCheckerAndReload.motoboyInputId}`).then(el => {
-                            console.log(el)
                             if(!el.checked){
                                 let test = document.querySelector(`.${statusCheckerAndReload.loadingBlockClass}`)
-                                console.log(test)
                                 if(!document.querySelector(`.${statusCheckerAndReload.loadingBlockClass}`)){
                                     statusCheckerAndReload.isReloading = true  
                                     location.reload()
@@ -114,10 +112,8 @@ function script_custom_date()
                         })
                     } else{
                         waitForElementToExist(`#${statusCheckerAndReload.motoboyInputId}`).then(el => {
-                            console.log(el)
                             if(el.checked){
                                 let test = document.querySelector(`.${statusCheckerAndReload.loadingBlockClass}`)
-                                console.log(test)
                                 if(!document.querySelector(`.${statusCheckerAndReload.loadingBlockClass}`)){
                                     statusCheckerAndReload.isReloading = true  
                                     location.reload()
