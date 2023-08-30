@@ -49,6 +49,8 @@ function script_custom_date()
                 })
                 shippingDateInput.addEventListener('change', e => {
                     date = new Date(shippingDateInput.valueAsNumber)
+                    let dateValue = new Date(e.value);
+                    if (dateValue < date) e.value = [date.getFullYear(), date.getMonth() + 1, date.getDate()].map(v => v < 10 ? '0' + v : v).join('-');
                     if(date.getUTCDay() == 0){
                         shippingDateInput.value = ''
                         alert('Só realizamos entregas em dias úteis')

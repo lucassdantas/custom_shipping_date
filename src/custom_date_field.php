@@ -36,8 +36,12 @@ function custom_date_field($fields)
 add_action( 'woocommerce_admin_order_data_after_shipping_address', 'display_shipping_type_on_order', 10, 1 );
 
 function display_shipping_type_on_order($order){
-	echo '<p><strong>'.__('Tipo de entrega:').'</strong> ' . get_post_meta( $order->get_id(), '_shipping_type', true ) . '</p>';
-	echo '<p><strong>'.__('Data:').'</strong> ' . get_post_meta( $order->get_id(), '_shipping_date', true ) . '</p>';
+	$shippingType = get_post_meta( $order->get_id(), '_shipping_type', true );
+	echo '<p><strong>'.__('Tipo de entrega:').'</strong> ' . $shippingType . '</p>';
+	
+	if($shippingType != 'Próximo dia útil' && $shippingType != 'Entrega imediata') {
+		echo '<p><strong>'.__('Data:').'</strong> ' . get_post_meta( $order->get_id(), '_shipping_date', true ) . '</p>';
+	}
 }
 
 
