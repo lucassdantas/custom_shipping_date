@@ -45,13 +45,25 @@ function check_and_add_custom_shipping_method() {
 			$fields['billing']['shipping_date']['priority'] = 9;
 			return $fields;
 		}
-
-		add_action( 'woocommerce_admin_order_data_after_shipping_address', 'display_shipping_type_on_order', 10, 1 );
-
-		function display_shipping_type_on_order($order){
-			echo '<p><strong>'.__('Tipo de entrega:').'</strong> ' . get_post_meta( $order->get_id(), '_shipping_type', true ) . '</p>';
-			echo '<p><strong>'.__('Data:').'</strong> ' . get_post_meta( $order->get_id(), '_shipping_date', true ) . '</p>';
-		}
-
 	}
+}
+
+// Salvar os campos como metadados da ordem
+add_action('woocommerce_checkout_update_order_meta', 'save_custom_shipping_fields');
+
+function save_custom_shipping_fields($order_id) {
+    if ($_POST['shipping_type']) {
+        update_post_meta($order_id, '_shipping_type', sanitize_text_field($_POST['shipping_type']));
+    }
+
+    if ($_POST['shipping_date']) {
+        update_post_meta($order_id, '_shipping_date', sanitize_text_field($_POST['shipping_date']));
+    }
+}
+
+add_action( 'woocommerce_admin_order_data_after_shipping_address', 'display_shipping_type_on_order', 10, 1 );
+
+function display_shipping_type_on_order($order){
+	echo '<p><strong>'.__('Tipo de entrega:').'</strong> ' . get_post_meta( $order->get_id(), '_shipping_type', true ) . '</p>';
+	echo '<p><strong>'.__('Data:').'</strong> ' . get_post_meta( $order->get_id(), '_shipping_date', true ) . '</p>';
 }
