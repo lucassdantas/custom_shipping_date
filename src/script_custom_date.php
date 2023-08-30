@@ -42,6 +42,11 @@ function script_custom_date()
                 }
                 showShippingDateByShippingType(shippingType, shippingDateField)
                 shippingDateField.querySelector('.optional').innerHTML = ''
+                console.log(new Date().getHours())
+                if(new Date().getHours() > 10) {
+                    let shippingOption = shippingType.querySelector('option[value="Entrega imediata"]')
+                    shippingType.removeChild(shippingOption)
+                }
                 let shippingDateInput = shippingDateField.querySelector('input')
                 
                 shippingType.addEventListener('change', e => {
