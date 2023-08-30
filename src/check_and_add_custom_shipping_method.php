@@ -67,7 +67,7 @@ function display_shipping_type_on_order($order){
 	$shippingType =  get_post_meta( $order->get_id(), '_shipping_type', true );
 	echo '<p><strong>'.__('Tipo de entrega:').'</strong> ' . $shippingType . '</p>';
 
-	if($shippingType != 'Entrega imediata' || $shippingType != 'Próximo dia útil') {
+	if($shippingType != 'Entrega imediata' && $shippingType != 'Próximo dia útil') {
 		$shippingDate = get_post_meta( $order->get_id(), '_shipping_date', true );
 		$shippingDate = date("d/m/Y", strtotime(str_replace(', ', '-', $shippingDate)));
 		echo '<p><strong>'.__('Data:').'</strong> ' . $shippingDate . '</p>';
