@@ -34,7 +34,7 @@ function script_custom_date()
             waitForElementToExist('#shipping_date_field')
             .then(shippingDateField => {
                 let showShippingDateByShippingType = (shippingType, shippingDate) => {
-                    if(shippingType.selectedIndex !== 2){
+                    if(shippingType.value !== "Entrega agendada"){
                         shippingDate.style.display = 'none'
                     }else{
                         shippingDate.style.display = ''
@@ -43,8 +43,10 @@ function script_custom_date()
                 showShippingDateByShippingType(shippingType, shippingDateField)
                 shippingDateField.querySelector('.optional').innerHTML = '<small>(Entregaremos no próximo dia útil caso o selecionado não seja útil)</small>'
                 if(new Date().getHours() > 10) {
-                    let shippingOption = shippingType.querySelector('option[value="Entrega imediata"]')
-                    shippingType.removeChild(shippingOption)
+                    let shippingOption = shippingType.querySelector('option[value="Entrega imediata"]') || false
+                    if(shippingOption){
+                        shippingType.removeChild(shippingOption)
+                    }
                 }
                 let shippingDateInput = shippingDateField.querySelector('input')
                 

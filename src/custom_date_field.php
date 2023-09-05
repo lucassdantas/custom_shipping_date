@@ -1,5 +1,7 @@
 <?php
+
 add_filter('woocommerce_checkout_fields', 'custom_date_field');
+global $is_50minutes_shipping = false;
 function custom_date_field($fields)
 {
 		$fields['billing']['shipping_type'] = array(
@@ -11,11 +13,19 @@ function custom_date_field($fields)
 		'clear'     => true
 		);
 	
-	$fields['billing']['shipping_type']['options'] = array (
-		'Entrega imediata' => 'Entrega imediata',
-		'Próximo dia útil' => 'Próximo dia útil',
-		'Entrega agendada' => 'Agendar entrega'
-	);
+	if($is_50minutes_shipping){
+		$fields['billing']['shipping_type']['options'] = array (
+			'Entrega imediata' => 'Entrega imediata',
+			'Próximo dia útil' => 'Próximo dia útil',
+			'Entrega agendada' => 'Agendar entrega'
+		);
+	}else{
+		$fields['billing']['shipping_type']['options'] = array (
+			'Próximo dia útil' => 'Próximo dia útil',
+			'Entrega agendada' => 'Agendar entrega'
+		);
+	}
+	
 	
 	$fields['billing']['shipping_type']['priority'] = 8;
 	
