@@ -35,8 +35,8 @@ function check_and_add_custom_shipping_method() {
 			
 			$fields['billing']['shipping_date'] = array(
 				'type' => 'date',
-				'label'     => __('Data de entrega', 'woocommerce'),
-				'placeholder'   => _x('Data de entrega', 'placeholder', 'woocommerce'),
+				'label'     => __('Data aproximada da entrega', 'woocommerce'),
+				'placeholder'   => _x('Data aproximada da entrega', 'placeholder', 'woocommerce'),
 				'required'  => false,
 				'class'     => array('form-row-wide'),
 				'clear'     => true
@@ -67,7 +67,7 @@ function display_shipping_type_on_order($order){
 	$shippingType =  get_post_meta( $order->get_id(), '_shipping_type', true );
 	echo '<p><strong>'.__('Tipo de entrega:').'</strong> ' . $shippingType . '</p>';
 
-	if($shippingType != 'Entrega imediata' && $shippingType != 'Próximo dia útil') {
+	if($shippingType === 'Entrega agendada') {
 		$shippingDate = get_post_meta( $order->get_id(), '_shipping_date', true );
 		$shippingDate = date("d/m/Y", strtotime(str_replace(', ', '-', $shippingDate)));
 		echo '<p><strong>'.__('Data:').'</strong> ' . $shippingDate . '</p>';
