@@ -1,7 +1,5 @@
 <?php
 
-require_once plugin_dir_path( __FILE__ ). 'check_product_category.php';
-
 add_action('woocommerce_before_checkout_form', 'check_and_add_custom_shipping_method');
 function check_and_add_custom_shipping_method() {
 	$current_shipping_name = "";
@@ -17,7 +15,28 @@ function check_and_add_custom_shipping_method() {
 	if($current_shipping_name === 'Entrega por Motoboy'){
 		add_filter('woocommerce_checkout_fields', 'custom_date_field');
 		function custom_date_field($fields)
-		{
+		{	
+			$is_50minutes_shipping = false;
+			function add_category_checker_filter(&$is_50minutes_shipping)
+			{
+				echo $is_50minutes_shipping;
+				function check_product_category( $cart_item_data, $cart_item ) 
+				{
+					$product_id = $cart_item['product_id'];
+					$term_names = wp_get_post_terms( $product_id, 'product_cat', array( 'fields' => 'names' ) );
+				
+					foreach ($term_names as $index => $category) {
+						if($category == 'Baterias De Motos' || $category == "Baterias de Carro" || $category == 'Receba em 50 minutos'){
+							echo $category;
+						}
+					}
+				   
+					return $cart_item_data;
+				}
+				add_filter( 'woocommerce_get_item_data', 'check_product_category', 10, 2);
+			}
+			add_category_checker_filter($is_50minutes_shipping);
+
 			$fields['billing']['shipping_type'] = array(
 				'label'     => __('Tipo de entrega', 'woocommerce'),
 				'type'		=> 'select',
@@ -27,11 +46,20 @@ function check_and_add_custom_shipping_method() {
 				'clear'     => true
 			);
 			
-			$fields['billing']['shipping_type']['options'] = array (
-				'Entrega imediata' => 'Entrega imediata',
-				'Próximo dia útil' => 'Próximo dia útil',
-				'Entrega agendada' => 'Agendar entrega'
-			);
+			if($is_50minutes_shipping){
+				$fields['billing']['shipping_type']['options'] = array (
+					'Entrega imediata' => 'Entrega imediata',
+					'Próximo dia útil' => 'Próximo dia útil',
+					'Entrega agendada' => 'Agendar entrega'
+				);
+			}else{
+				$fields['billing']['shipping_type']['options'] = array (
+					'Entrega no mesmo dia' => 'Entrega no mesmo dia',
+					'Próximo dia útil' => 'Próximo dia útil',
+					'Entrega agendada' => 'Agendar entrega'
+				);
+			}
+			
 			
 			$fields['billing']['shipping_type']['priority'] = 8;
 			

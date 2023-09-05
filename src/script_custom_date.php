@@ -43,7 +43,7 @@ function script_custom_date()
                 showShippingDateByShippingType(shippingType, shippingDateField)
                 shippingDateField.querySelector('.optional').innerHTML = '<small>(Entregaremos no próximo dia útil caso o selecionado não seja útil)</small>'
                 if(new Date().getHours() > 10) {
-                    let shippingOption = shippingType.querySelector('option[value="Entrega imediata"]') || false
+                    let shippingOption = shippingType.querySelector('option[value="Entrega imediata"]') || shippingType.querySelector('option[value="Entrega no mesmo dia"]')
                     if(shippingOption){
                         shippingType.removeChild(shippingOption)
                     }
