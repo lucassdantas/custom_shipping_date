@@ -16,26 +16,20 @@ function check_and_add_custom_shipping_method() {
 		add_filter('woocommerce_checkout_fields', 'custom_date_field');
 		function custom_date_field($fields)
 		{	
-			$is_50minutes_shipping = false;
-			function add_category_checker_filter(&$is_50minutes_shipping)
-			{
-				echo $is_50minutes_shipping;
-				function check_product_category( $cart_item_data, $cart_item ) 
-				{
-					$product_id = $cart_item['product_id'];
-					$term_names = wp_get_post_terms( $product_id, 'product_cat', array( 'fields' => 'names' ) );
-				
-					foreach ($term_names as $index => $category) {
-						if($category == 'Baterias De Motos' || $category == "Baterias de Carro" || $category == 'Receba em 50 minutos'){
-							echo $category;
-						}
-					}
-				   
-					return $cart_item_data;
+			global $is_50minutes_shipping;
+
+			$is_50minutes_shipping = true;
+
+			foreach (WC()->cart->get_cart() as $cart_item) {
+				$product_id = $cart_item['product_id'];
+				$term_names = wp_get_post_terms($product_id, 'product_cat', array('fields' => 'names'));
+		
+				// Verifique se o produto não tem a categoria "Receba em 50 minutos"
+				if (!in_array('Receba em 50 minutos', $term_names)) {
+					$is_50minutes_shipping = false;
+					break; // Se encontrar um produto sem a categoria, defina como false e saia do loop
 				}
-				add_filter( 'woocommerce_get_item_data', 'check_product_category', 10, 2);
 			}
-			add_category_checker_filter($is_50minutes_shipping);
 
 			$fields['billing']['shipping_type'] = array(
 				'label'     => __('Tipo de entrega', 'woocommerce'),
