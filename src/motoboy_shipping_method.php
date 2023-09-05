@@ -2,22 +2,22 @@
 add_filter('woocommerce_shipping_methods', 'add_motoboy_shipping');
 function add_motoboy_shipping($methods)
 {
-    $methods['UPS_number_shipping'] = 'UPS_Number_Shipping_Method';
+    $methods['motoboy_shipping'] = 'motoboy_shipping';
     return $methods;
 }
-add_action('woocommerce_shipping_init', 'UPS_number_shipping_method');
-function UPS_number_shipping_method()
+add_action('woocommerce_shipping_init', 'motoboy_shipping');
+function motoboy_shipping()
 {
-    class UPS_Number_Shipping_Method extends WC_Shipping_Method
+    class Motoboy_Shipping extends WC_Shipping_Method
     {
 
         public function __construct($instance_id = 0)
         {
-            $this->id = 'UPS_number_shipping';
+            $this->id = 'motoboy_shipping';
             $this->instance_id = absint($instance_id);
-            $this->domain = 'UPS_number_shipping';
+            $this->domain = 'motoboy_shipping';
             $this->method_title = __('Entrega por motoboy', $this->domain);
-            $this->method_description = __('Shipping method to be used when dealer has a UPS number', $this->domain);
+            $this->method_description = __('Entrega por motoboy', $this->domain);
             $this->title = __('Entrega por motoboy', $this->domain);
             $this->supports = array(
                 'shipping-zones',
@@ -42,7 +42,7 @@ function UPS_number_shipping_method()
             );
 
             $this->enabled = $this->get_option('enabled');
-            $this->title   = __('UPS Number', $this->domain);
+            $this->title   = __('Entrega por motoboy', $this->domain);
 
             add_action('woocommerce_update_options_shipping_' . $this->id, array($this, 'process_admin_options'));
         }
