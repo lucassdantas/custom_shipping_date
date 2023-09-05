@@ -17,19 +17,30 @@ function check_and_add_custom_shipping_method() {
 		function custom_date_field($fields)
 		{	
 			global $is_50minutes_shipping;
-
 			$is_50minutes_shipping = true;
+
+			// Inicialize a contagem total de produtos
+			$total_product_count = 0;
 
 			foreach (WC()->cart->get_cart() as $cart_item) {
 				$product_id = $cart_item['product_id'];
 				$term_names = wp_get_post_terms($product_id, 'product_cat', array('fields' => 'names'));
-		
+
 				// Verifique se o produto não tem a categoria "Receba em 50 minutos"
 				if (!in_array('Receba em 50 minutos', $term_names)) {
 					$is_50minutes_shipping = false;
 					break; // Se encontrar um produto sem a categoria, defina como false e saia do loop
 				}
+				
+				// Adicione a quantidade deste item ao total
+				$total_product_count += $cart_item['quantity'];
 			}
+			
+			// Se houver mais de 6 unidades no total, defina como false
+			if ($total_product_count > 6) {
+				$is_50minutes_shipping = false;
+			}
+
 
 			$fields['billing']['shipping_type'] = array(
 				'label'     => __('Tipo de entrega', 'woocommerce'),
