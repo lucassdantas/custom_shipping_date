@@ -12,7 +12,7 @@ function check_and_add_custom_shipping_method() {
 			$current_shipping_name = $method->label;
 		}
 	}
-	if($current_shipping_name === 'Entrega por Motoboy'){
+	if($current_shipping_name === 'Entrega Help Baterias'){
 		add_filter('woocommerce_checkout_fields', 'custom_date_field');
 		function custom_date_field($fields)
 		{	
@@ -37,7 +37,7 @@ function check_and_add_custom_shipping_method() {
 			}
 			
 			// Se houver mais de 6 unidades no total, defina como false
-			if ($total_product_count > 6) {
+			if ($total_product_count > 2) {
 				$is_50minutes_shipping = false;
 			}
 

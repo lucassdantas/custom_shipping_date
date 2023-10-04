@@ -6,7 +6,7 @@ add_filter('woocommerce_package_rates', 'custom_shipping_methods_based_on_catego
 function custom_shipping_methods_based_on_categories($rates, $package) {
     // Verifique se a entrega por motoboy está disponível
     $motoboy_available = true;
-
+    $car_available = false;
     // Verificamos se algum produto não pertence às categorias "baterias de carro" ou "baterias de moto"
     foreach (WC()->cart->get_cart() as $cart_item) {
         $product_id = $cart_item['product_id'];
@@ -20,7 +20,10 @@ function custom_shipping_methods_based_on_categories($rates, $package) {
 
     // Desative a entrega por motoboy se a condição não for atendida
     if (!$motoboy_available) {
-        unset($rates['entrega_por_motoboy']);
+        unset($rates['motoboy_shipping']);
+    }
+    if (!$car_available){
+        unset($rates['car_shipping']);
     }
 
     return $rates;

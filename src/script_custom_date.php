@@ -42,7 +42,8 @@ function script_custom_date()
                 }
                 showShippingDateByShippingType(shippingType, shippingDateField)
                 shippingDateField.querySelector('.optional').innerHTML = '<small>(Entregaremos no próximo dia útil caso o selecionado não seja útil)</small>'
-                if(new Date().getHours() > 10) {
+                let currentHour = new Date().getHours()
+                if(currentHour > 17 && currentHour < 9) {
                     let shippingOption = shippingType.querySelector('option[value="Entrega imediata"]') || shippingType.querySelector('option[value="Entrega no mesmo dia"]')
                     if(shippingOption){
                         shippingType.removeChild(shippingOption)
@@ -89,7 +90,7 @@ function script_custom_date()
             });
         },
         statusCheckerAndReload = {
-            motoboyInputId:'shipping_method_0_free_shipping6',
+            motoboyInputId:'shipping_method_0_help_baterias_shipping34',
             loadingBlockClass:'blockUI',
             element: document.querySelector(`#${this.motoboyInputId}`),
             wasChecked: false,

@@ -13,7 +13,7 @@ if(!function_exists('add_action')){
     die;
 }
 
-require_once plugin_dir_path(__FILE__). 'src/motoboy_shipping_method.php';
+require_once plugin_dir_path(__FILE__). 'src/add_motoboy_shipping_method.php';
 require_once plugin_dir_path(__FILE__). 'src/restrict_motoboy_shipping.php';
 require_once plugin_dir_path( __FILE__ ). 'src/check_and_add_custom_shipping_method.php';
 require_once plugin_dir_path( __FILE__ ). 'src/script_custom_date.php';
