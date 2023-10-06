@@ -36,7 +36,7 @@ function check_and_add_custom_shipping_method() {
 				$total_product_count += $cart_item['quantity'];
 			}
 			
-			// Se houver mais de 6 unidades no total, defina como false
+			// Se houver mais de 2 unidades no total, defina como false
 			if ($total_product_count > 2) {
 				$is_50minutes_shipping = false;
 			}
@@ -59,7 +59,7 @@ function check_and_add_custom_shipping_method() {
 				);
 			}else{
 				$fields['billing']['shipping_type']['options'] = array (
-					'Entrega no mesmo dia' => 'Entrega no mesmo dia',
+					#'Entrega no mesmo dia' => 'Entrega no mesmo dia',
 					'Próximo dia útil' => 'Próximo dia útil',
 					'Entrega agendada' => 'Agendar entrega'
 				);
