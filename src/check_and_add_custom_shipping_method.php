@@ -7,6 +7,9 @@ function check_and_add_custom_shipping_method() {
 	$packages = WC()->shipping()->get_packages();
 	$package = $packages[0];
 	$available_methods = $package['rates'];
+	echo "<pre>";
+	#print_r(WC()->shipping()->get_packages());
+	echo "</pre>";
 	foreach ($available_methods as $key => $method) {
 		if($current_shipping_method[0] == $method->id){
 			$current_shipping_name = $method->label;
@@ -16,6 +19,7 @@ function check_and_add_custom_shipping_method() {
 		add_filter('woocommerce_checkout_fields', 'custom_date_field');
 		function custom_date_field($fields)
 		{	
+
 			global $is_50minutes_shipping;
 			$is_50minutes_shipping = true;
 
