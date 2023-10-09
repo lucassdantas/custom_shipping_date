@@ -86,18 +86,10 @@ function check_and_add_custom_shipping_method() {
 
 
 
-	}else{
-		add_filter('woocommerce_available_payment_gateways', 'conditional_payment_gateways', 10, 1);
-        function conditional_payment_gateways( $available_gateways ) {
-            // Not in backend (admin)
-            if( is_admin() ) 
-                return $available_gateways;
-            
-			unset($available_gateways['cod']); // unset 'cash on delivery'
-            return $available_gateways;
-        }
 	}
 }
+
+
 
 // Salvar os campos como metadados da ordem
 add_action('woocommerce_checkout_update_order_meta', 'save_custom_shipping_fields');
