@@ -7,9 +7,6 @@ function check_and_add_custom_shipping_method() {
 	$packages = WC()->shipping()->get_packages();
 	$package = $packages[0];
 	$available_methods = $package['rates'];
-	echo "<pre>";
-	#print_r(WC()->shipping()->get_packages());
-	echo "</pre>";
 	foreach ($available_methods as $key => $method) {
 		if($current_shipping_method[0] == $method->id){
 			$current_shipping_name = $method->label;
@@ -85,6 +82,20 @@ function check_and_add_custom_shipping_method() {
 			$fields['billing']['shipping_date']['priority'] = 9;
 			return $fields;
 		}
+
+
+
+
+	}else{
+		add_filter('woocommerce_available_payment_gateways', 'conditional_payment_gateways', 10, 1);
+        function conditional_payment_gateways( $available_gateways ) {
+            // Not in backend (admin)
+            if( is_admin() ) 
+                return $available_gateways;
+            
+			unset($available_gateways['cod']); // unset 'cash on delivery'
+            return $available_gateways;
+        }
 	}
 }
 

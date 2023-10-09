@@ -3,7 +3,7 @@
 * Plugin Name: Custom Shipping Date
 * Plugin URI: https://github.com/lucassdantas/custom_shipping_date
 * Description: Custom date for woocommerce shipping
-* Version: 0.7
+* Version: 0.71
 * Author: R&D Marketing Digital 
 * Author URI: https://rdmarketing.com.br/
 **/
