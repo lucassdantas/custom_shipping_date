@@ -14,6 +14,9 @@ function restrict_help_baterias_shipping_on_cart($cart) {
         }  
         $count++;
     }
+
+    /*
+    #Removed because the limit dont exit anymore
     if($count > 6){
         add_filter( 'woocommerce_package_rates', 'disable_shipping_method_based_on_postcode', 10, 2 );
         function disable_shipping_method_based_on_postcode( $rates, $package ) {
@@ -22,8 +25,7 @@ function restrict_help_baterias_shipping_on_cart($cart) {
             }
             return $rates;
         }
-
-        
     }
+    */
 }
 add_action('woocommerce_before_calculate_totals', 'restrict_help_baterias_shipping_on_cart');

@@ -1,4 +1,9 @@
 <?php
+
+defined('ABSPATH') or die();
+if(!function_exists('add_action')){
+    die;
+}
 function script_custom_date()
 {
 ?>
