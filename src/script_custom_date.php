@@ -33,13 +33,29 @@ function script_custom_date()
         .then( shippingType => {
             waitForElementToExist('#shipping_date_field')
             .then(shippingDateField => {
+                
                 let showShippingDateByShippingType = (shippingType, shippingDate) => {
                     if(shippingType.value !== "Entrega agendada"){
                         shippingDate.style.display = 'none'
                     }else{
                         shippingDate.style.display = ''
                     }
-                }
+                },
+
+                addBusinessDays = () => {
+                    const today = new Date();
+                    const dayOfWeek = today.getDay();
+                    const daysToAdd = (dayOfWeek === 5) ? 3 : (dayOfWeek === 6) ? 2 : 1;
+                    
+                    today.setDate(today.getDate() + daysToAdd);
+                    
+                    // Garanta que a data seja formatada no formato "YYYY-MM-DD" para um input tipo date
+                    const formattedDate = today.toISOString().split('T')[0];
+                    
+                    return formattedDate;
+                    }
+
+
                 showShippingDateByShippingType(shippingType, shippingDateField)
                 shippingDateField.querySelector('.optional').innerHTML = '<small>(Entregaremos no próximo dia útil caso o selecionado não seja útil)</small>'
                 let currentHour = new Date().getHours()
@@ -49,11 +65,24 @@ function script_custom_date()
                         shippingType.removeChild(shippingOption)
                     }
                 }
-                let shippingDateInput = shippingDateField.querySelector('input')
-                
+                let shippingDateInput = shippingDateField.querySelector('input');
+                let currentDate = new Date();
+                let currentDatePlusFiveBusinessDays = addBusinessDays(currentDate, 5);
+
+                // Formate a data para "YYYY-MM-DD"
+                const formattedDate = currentDatePlusFiveBusinessDays.split('/').reverse().join('-');
+                console.log(formattedDate);
+
+                shippingDateInput.value = formattedDate;
+                shippingDateInput.setAttribute('min', formattedDate);
+
+
+
+
                 shippingType.addEventListener('change', e => {
                     showShippingDateByShippingType(shippingType, shippingDateField)
                 })
+
                 shippingDateInput.addEventListener('change', e => {
                     date = new Date(shippingDateInput.valueAsNumber)
                     let dateValue = new Date(e.value);
