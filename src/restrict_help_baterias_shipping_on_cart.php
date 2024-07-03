@@ -9,6 +9,10 @@ function restrict_help_baterias_shipping_on_cart($cart) {
     $count = 0;
     foreach($cart->get_cart() as $cart_item){
         $single_product_quantity = $cart_item['quantity'];
+        if(in_array('com-sucata', $cart_item['variation'])){
+            echo "O produto possui sucata";
+        }
+
         if($single_product_quantity > 1){
             $count += ($single_product_quantity - 1);
         }  
