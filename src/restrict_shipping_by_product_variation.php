@@ -10,7 +10,6 @@ function filter_shipping_methods($rates, $package) {
     return $rates;
 }
 
-
 add_action('woocommerce_before_cart', 'display_notice_for_shipping');
 add_action('woocommerce_checkout_before_customer_details', 'display_notice_for_shipping');
 function display_notice_for_shipping() {
