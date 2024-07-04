@@ -5,7 +5,7 @@ if(!function_exists('add_action')){
     die;
 }
 
-function restrict_help_baterias_shipping_on_cart($cart) {
+function restrict_help_baterias_shipping_on_cart_and_checkout($cart) {
     $remove_other_shipping_methods = false;
 
     foreach($cart->get_cart() as $cart_item){
@@ -20,7 +20,7 @@ function restrict_help_baterias_shipping_on_cart($cart) {
     }
 }
 
-add_action('woocommerce_before_calculate_totals', 'restrict_help_baterias_shipping_on_cart');
+add_action('woocommerce_before_calculate_totals', 'restrict_help_baterias_shipping_on_cart_and_checkout');
 
 
 

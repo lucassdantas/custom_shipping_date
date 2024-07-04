@@ -1,5 +1,6 @@
 <?php 
 
+//remove all shipping methods except help baterias shipping
 add_filter('woocommerce_package_rates', 'filter_shipping_methods', 10, 2);
 function filter_shipping_methods($rates, $package) {
     foreach ($rates as $rate_id => $rate) {
