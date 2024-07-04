@@ -1,5 +1,8 @@
 <?php 
-
+defined('ABSPATH') or die();
+if(!function_exists('add_action')){
+    die;
+}
 //remove all shipping methods except help baterias shipping
 add_filter('woocommerce_package_rates', 'filter_shipping_methods', 10, 2);
 function filter_shipping_methods($rates, $package) {

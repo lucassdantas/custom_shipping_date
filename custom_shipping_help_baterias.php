@@ -19,5 +19,5 @@ require_once plugin_dir_path(__FILE__). 'src/restrict_help_baterias_shipping_on_
 require_once plugin_dir_path(__FILE__). 'src/restrict_help_baterias_shipping_by_category.php';
 require_once plugin_dir_path(__FILE__). 'src/check_and_add_custom_shipping_method.php';
 require_once plugin_dir_path(__FILE__). 'src/script_custom_date.php';
-
+require_once plugin_dir_path(__FILE__). 'src/script_restrict_shippings_on_variation.php';
   

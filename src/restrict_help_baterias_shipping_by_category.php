@@ -1,5 +1,8 @@
 <?php 
-
+defined('ABSPATH') or die();
+if(!function_exists('add_action')){
+    die;
+}
 // Adicione o filtro para modificar as opções de entrega
 add_filter('woocommerce_package_rates', 'custom_shipping_methods_based_on_categories', 10, 2);
 
